@@ -1,0 +1,27 @@
+pkgname=ikbus-init-git
+_pkgname=ik-bus-userbase
+pkgver=0.2.21471b1
+pkgrel=1
+pkgdesc="Systemd units to initialisation I/K-bus net device"
+arch=('armv6h' 'armv7h')
+url="https://github.com/korolv/ik-bus-userbase"
+license=('LGPL3')
+depends=('linux-ikbus-raspberrypi' 'systemd')
+makedepends=("git")
+provides=("ikbus-init")
+conflicts=("ikbus-init")
+source=("git+https://github.com/korolv/ik-bus-userbase.git")
+md5sums=('SKIP')
+
+pkgver() {
+    cd "${srcdir}/${_pkgname}"
+    printf "0.%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+    cd "${srcdir}/${_pkgname}"
+    install -d "${pkgdir}/usr/lib/systemd/system"
+    install -m 0644 "slibus@.service" "${pkgdir}/usr/lib/systemd/system/slibus@.service"
+    install -m 0644 "ibusdev.target" "${pkgdir}/usr/lib/systemd/system/ibusdev.target"
+    install -m 0644 "ibusctl@.service" "${pkgdir}/usr/lib/systemd/system/ibusctl@.service"
+}

@@ -6,19 +6,21 @@
 
 buildarch=20
 
-pkgbase=linux-raspberrypi
-_commit=c13211864db8d8c11996238ac17beb31964559d7
+pkgbase=linux-ikbus-raspberrypi
+_commit=1f604c9c2c4a52a1b622befa7a447c94facf82a7
 _srcname=linux-${_commit}
 _kernelname=${pkgbase#linux}
-_desc="Raspberry Pi"
+_desc="Raspberry Pi with I/K-bus support"
 _ikbus_commit=8b2858a29fa17020ec8cc4a46cb97403c66b6a4e
-pkgver=4.4.11
-pkgrel=3
+pkgver=4.4.14
+pkgrel=1
 bfqver=v7r11
 arch=('armv6h' 'armv7h')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
+provides=("linux-raspberrypi")
+conflicts=("linux-raspberrypi")
 options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_commit}.tar.gz"
         "git+https://github.com/sfjro/aufs4-standalone.git#branch=aufs${pkgver%.*}"
@@ -31,7 +33,8 @@ source=("https://github.com/raspberrypi/linux/archive/${_commit}.tar.gz"
         'config.v6'
         'config.v7'
         "https://github.com/korolv/ik-bus-driver/archive/${_ikbus_commit}.tar.gz")
-md5sums=('b518568e2ee738dc938b29a9eef14039'
+
+md5sums=('aee750521d7e69852aa53f11c1a6244a'
          'SKIP'
          'c1d7fcfe88edb658375089c0a9cc1811'
          '953133d5e387de2ad79ac0ae5c27cb6b'
@@ -40,8 +43,8 @@ md5sums=('b518568e2ee738dc938b29a9eef14039'
          '8c3cb6d8f0609b43f09d083b4006ec5a'
          'f95eb9c22c18722e30fc28a5640aeba5'
          '60bc3624123c183305677097bcd56212'
-         '82103735f070ab044c91ff05e632817b'
-         'd3e3b2ad50bfac7ffab0e4716d74b645'
+         '1efce84ad96bcb151657d79a37786335'
+         'c052a91485d9e6c8d2c764bbfaf2f879'
          'a4d234bcb494fe039767b43f1720ff05')
 
 prepare() {
