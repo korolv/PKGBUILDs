@@ -1,0 +1,9 @@
+[Unit]
+Description=Emulator CD changer
+After=ibusctl@ibus0.service
+
+[Service]
+ExecStart=/usr/bin/cdc-agent
+
+[Install]
+WantedBy=default.target

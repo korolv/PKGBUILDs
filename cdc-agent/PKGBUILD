@@ -1,0 +1,39 @@
+pkgname=cdc-agent-git
+_pkgname=ik-bus-apps
+pkgver=0.2.a55a5c3
+pkgrel=1
+pkgdesc="CD changer emulator which translare play control to MPRIS"
+arch=('armv6h' 'armv7h')
+url="https://github.com/korolv/ik-bus-apps"
+license=('LGPL3')
+depends=('linux-ikbus-raspberrypi' 'playerctl')
+makedepends=('git' 'ikbus-devel' 'cmake')
+provides=("cdc-agent")
+conflicts=("cdc-agent")
+source=("git+https://github.com/korolv/ik-bus-apps.git"
+        "cdc.conf"
+        "cdc.service")
+
+md5sums=('SKIP'
+         '6ec180f091c3b782f1c0a70dac7ec3a0'
+         'fedf77de6050b65fa117bd2eb80d647c')
+
+pkgver() {
+    cd "${srcdir}/${_pkgname}"
+    printf "0.%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    cd "${srcdir}/${_pkgname}"
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+}
+
+package() {
+    cd "${srcdir}"
+    install -Dm0755 "${_pkgname}/build/cdc-agent" "${pkgdir}/usr/bin/cdc-agent"
+    install -Dm0644 "cdc.conf" "${pkgdir}/etc/cdc.conf"
+    install -Dm6044 "cdc.service" "${pkgdir}/usr/lib/systemd/user/cdc.service"
+}
